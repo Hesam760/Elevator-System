@@ -17,96 +17,99 @@ def staticProcess(arrayInput, head):
     direction_up = True
 
     len_check = math.ceil(len(arrayInput) / size)
-    if len_check < 1:
-        len_check = 1
+    if len([*set(array)]) == 1:
+        print(array[0])
+    else :
+        if len_check < 1:
+            len_check = 1
 
-    if len(array) < size:
-        size = len(array)
-        
-    
-    if len(array) != 1 :
-        for k in range(0, len_check):
-            for i in range(0, size):
-                if len(array) == 0:
-                    break
-                item = array.pop(0)
-                if item < head:
-                    down.append(item)
-                if item > head:
-                    up.append(item)
-
-            sub_array = up + down
-            sub_array.sort()
-            down.sort()
-            up.sort()
-            print("up :" , up)
-            print("downL " , down)
+        if len(array) < size:
+            size = len(array)
             
-            if (k == 0 and len(up) >= len(down)) or (sub_array[0] > head) or (direction_up is True and sub_array[len(down) + len(up) - 1] > head):
-                for i in range(len(up)):
-                    direction_up = True
-                    newFloor = up[i]
+        
+        if len(array) != 1 :
+            for k in range(0, len_check):
+                for i in range(0, size):
+                    if len(array) == 0:
+                        break
+                    item = array.pop(0)
+                    if item < head:
+                        down.append(item)
+                    if item > head:
+                        up.append(item)
 
-                    seqArray.append(newFloor)
+                sub_array = up + down
+                sub_array.sort()
+                down.sort()
+                up.sort()
+                print("up :" , up)
+                print("downL " , down)
                     
-                    distance = abs(newFloor - head)
-                                        
-                    head = newFloor
+                if len(k == 0 and len(up) >= len(down)) or (sub_array[0] > head) or (direction_up is True and sub_array[len(down) + len(up) - 1] > head) :
+                    for i in range(len(up)):
+                        direction_up = True
+                        newFloor = up[i]
 
-                if len(down) != 0:
-                    seek_count += abs(head - down[0])
-                    down.reverse()
-                    head = down[0]
+                        seqArray.append(newFloor)
+                        
+                        distance = abs(newFloor - head)
+                                            
+                        head = newFloor
 
-                    for i in range(len(down)):
+                    if len(down) != 0:
+                        seek_count += abs(head - down[0])
+                        down.reverse()
+                        head = down[0]
+
+                        for i in range(len(down)):
+                            direction_up = False
+                            newFloor = down[i]
+                            
+                            seqArray.append(newFloor)
+
+                            distance = abs(newFloor - head)
+
+                            head = newFloor
+
+                elif (sub_array[0] < head and direction_up is False) or (len(down) + len(up) <= 4):
+                    if direction_up and head > down[len(down) - 1] and head > down[0] :
+                        down.reverse()
+                    for i in range(0, len(down)):
                         direction_up = False
                         newFloor = down[i]
-                        
+                                            
+                        seqArray.append(newFloor)
+
+                        distance = abs(newFloor - head)
+
+                        seek_count += distance
+
+                        head = newFloor
+
+                    for i in range(len(up)):
+                        direction_up = True
+                        newFloor = up[i]
+
                         seqArray.append(newFloor)
 
                         distance = abs(newFloor - head)
 
                         head = newFloor
 
-            elif (sub_array[0] < head and direction_up is False) or (len(down) + len(up) <= 4):
-                if direction_up and head > down[len(down) - 1] and head > down[0] :
-                    down.reverse()
-                for i in range(0, len(down)):
-                    direction_up = False
-                    newFloor = down[i]
-                                        
-                    seqArray.append(newFloor)
+                for i in range(0 , len(seqArray)):
+                    if i > 0 and seqArray[i] != seqArray[i-1] :
+                        print(seqArray[i])
+                    elif i == 0:
+                        print(seqArray[i])
 
-                    distance = abs(newFloor - head)
+                print('--------------')
 
-                    seek_count += distance
-
-                    head = newFloor
-
-                for i in range(len(up)):
-                    direction_up = True
-                    newFloor = up[i]
-
-                    seqArray.append(newFloor)
-
-                    distance = abs(newFloor - head)
-
-                    head = newFloor
-
-            for i in range(0 , len(seqArray)):
-                if i > 0 and seqArray[i] != seqArray[i-1] :
-                    print(seqArray[i])
-                elif i == 0:
-                    print(seqArray[i])
-
-            print('--------------')
-
-            up.clear()
-            down.clear()
-            sub_array.clear()
-            seqArray.clear()
-    else :
-        print(array[0])
+                up.clear()
+                down.clear()
+                sub_array.clear()
+                seqArray.clear()
+        else :
+            print(array[0])
 
 
 
