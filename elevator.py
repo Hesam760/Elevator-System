@@ -37,11 +37,11 @@ def staticProcess(arrayInput, head):
 
             sub_array = up + down
             sub_array.sort()
-            # print("array :", sub_array)
             down.sort()
             up.sort()
-
-            if (k == 0 and len(up) >= len(down)) or (sub_array[0] > head) or (direction_up is True and sub_array[3] > head):
+            print("up :" , up)
+            print("downL " , down)
+            if (k == 0 and len(up) >= len(down)) or (sub_array[0] > head) or (direction_up is True and sub_array[len(down) + len(up) - 1] > head):
                 for i in range(len(up)):
                     direction_up = True
                     newFloor = up[i]
@@ -67,7 +67,7 @@ def staticProcess(arrayInput, head):
 
                         head = newFloor
 
-            elif sub_array[0] < head and direction_up is False:
+            elif (sub_array[0] < head and direction_up is False) or (len(down) + len(up) < 4):
                 for i in range(0, len(down)):
                     direction_up = False
                     newFloor = down[i]
@@ -120,13 +120,16 @@ wait = False
 
 priority = []
 inputList = []
+
 def thread():
     sg.theme("GreenTan")
     
     col = sg.Col([     
-          [sg.Text(size=(100, 6), key='-OUT-')],
-          [sg.Text(size=(100, 6), key='-OUTP-')],
-          [sg.Text('Internal Requests                        External Reqests')],
+            [sg.Text('Inputs :' , size= (10,1))],
+            [sg.Text(size=(100, 6), key='-OUT-')],
+            [sg.Text('Outputs :' , size= (10,1))],
+            [sg.Text(size=(100, 6), key='-OUTP-')],
+            [sg.Text('Internal Requests                        External Reqests')],
           [
             sg.Button('1' , size = (4,2)) ,  sg.Button('2', size = (4,2)), sg.Button('3' , size = (4,2)) , sg.Text('        ') , 
             sg.Button('1F' , size = (4,2)) ,  sg.Button('2F', size = (4,2)), sg.Button('3F' , size = (4,2))       
@@ -151,178 +154,155 @@ def thread():
             sg.Button('13F', size = (4,2)), sg.Button('14F', size = (4,2)), sg.Button('15F', size = (4,2))
           ]], size=(800,600), pad=(0,0))
 
-    layout = [[sg.Text('Elevator')],
+    layout = [[sg.Text('Frame')],
                 [sg.Frame('', [[col]])]]
 
     window = sg.Window('Elevator').Layout(layout)
+    count = 0
+    inList = []
+    checkList = []
     while True:
         button , values = window.Read(timeout = 100)
         window['-OUT-'].update(inputList)
-        # if len(priority[1]) != 0 :
-        window['-OUTP-'].update(priority)
-        match button:
-            case '1' : 
-                t1 = time.time()
-                dynamicList.append(['1 Internal', t1])
-                inputList.append('1 Internal')        
-            case '2' :
-                t1 = time.time()
-                dynamicList.append(['2 Internal',t1])
-                inputList.append('2 Internal')  
-            case '3' :
-                t1 = time.time()
-                dynamicList.append(['3 Internal',t1])
-                inputList.append('3 Internal')  
-            case '4' :
-                t1 = time.time()
-                dynamicList.append(['4 Internal',t1])
-                inputList.append('4 Internal')  
-            case '5' :
-                t1 = time.time()
-                dynamicList.append(['5 Internal',t1])
-                inputList.append('5 Internal')  
-            case '6' :
-                t1 = time.time()
-                dynamicList.append(['6 Internal',t1])
-                inputList.append('6 Internal')  
-            case '7' :
-                t1 = time.time()
-                dynamicList.append(['7 Internal',t1])
-                inputList.append('7 Internal')  
-            case '8' : 
-                t1 = time.time()
-                dynamicList.append(['8 Internal',t1])
-                inputList.append('8 Internal')  
-            case '9' : 
-                t1 = time.time()
-                dynamicList.append(['9 Internal',t1])
-                inputList.append('9 Internal')  
-            case '10' :
-                t1 = time.time()
-                dynamicList.append(['10 Internal',t1])
-                inputList.append('10 Internal')  
-            case '11' :
-                t1 = time.time()
-                dynamicList.append(['11 Internal',t1])
-                inputList.append('11 Internal')  
-            case '12' : 
-                t1 = time.time()
-                dynamicList.append(['12 Internal',t1])
-                inputList.append('12 Internal')  
-            case '13' :
-                t1 = time.time()
-                dynamicList.append(['13 Internal',t1])
-                inputList.append('13 Internal')  
-            case '14' :
-                t1 = time.time()
-                dynamicList.append(['14 Internal',t1])
-                inputList.append('14 Internal')  
-            case '15' :
-                t1 = time.time()
-                dynamicList.append(['15 Internal',t1])
-                inputList.append('15 Internal')  
-            case '1F' : 
-                t1 = time.time()
-                dynamicList.append(['1 External', t1])
-                inputList.append('1 External')          
-            case '2F' :
-                t1 = time.time()
-                dynamicList.append(['2 External',t1])
-                inputList.append('2 External')  
-            case '3F' :
-                t1 = time.time()
-                dynamicList.append(['3 External',t1])
-                inputList.append('3 External')  
-            case '4F' :
-                t1 = time.time()
-                dynamicList.append(['4 External',t1])
-                inputList.append('4 External')  
-            case '5F' :
-                t1 = time.time()
-                dynamicList.append(['5 External',t1])
-                inputList.append('5 External')  
-            case '6F' :
-                t1 = time.time()
-                dynamicList.append(['6 External',t1])
-                inputList.append('6 External')  
-            case '7F' :
-                t1 = time.time()
-                dynamicList.append(['7 External',t1])
-                inputList.append('7 External')  
-            case '8F' : 
-                t1 = time.time()
-                dynamicList.append(['8 External',t1])
-                inputList.append('8 External')  
-            case '9F' : 
-                t1 = time.time()
-                dynamicList.append(['9 External',t1])
-                inputList.append('9 External')  
-            case '10F' :
-                t1 = time.time()
-                dynamicList.append(['10 External',t1])
-                inputList.append('10 External')  
-            case '11F' :
-                t1 = time.time()
-                dynamicList.append(['11 External',t1])
-                inputList.append('11 External')  
-            case '12F' : 
-                t1 = time.time()
-                dynamicList.append(['12 External',t1])
-                inputList.append('12 External')  
-            case '13F' :
-                t1 = time.time()
-                dynamicList.append(['13 External',t1])
-                inputList.append('13 External')  
-            case '14F' :
-                t1 = time.time()
-                dynamicList.append(['14 External',t1])
-                inputList.append('14 External')  
-            case '15F' :
-                t1 = time.time()
-                dynamicList.append(['15 External',t1])
-                inputList.append('15 External')  
+        if len(priority) != 0 :
+            while count < len(priority) :
+                inList.append(priority[count])
+                # checkList.append(priority[count])
+                # for checkList[count] in checkList :
+                #     countinue
+                # for check in checkList:
+                
+                # if checkList[count] in checkList and checkList[count] != '--Next Request--':
+                #     continue 
+                # else :
+                # inList.append(checkList[count])
+                # inList.append(priority[count]) 
+                window['-OUTP-'].update(inList)
+                count += 1
+            checkList = []
+         
+        if button == '1' :
+            t1 = time.time()
+            dynamicList.append(['1 Internal',t1])
+            inputList.append('1 Internal')        
+        elif button == '2' :
+            t1 = time.time()
+            dynamicList.append(['2 Internal',t1])
+            inputList.append('2 Internal')        
+        elif button == '3' :
+            t1 = time.time()
+            dynamicList.append(['3 Internal',t1])
+            inputList.append('3 Internal')        
+        elif button == '4' :
+            t1 = time.time()
+            dynamicList.append(['4 Internal',t1])
+            inputList.append('4 Internal')        
+        elif button == '5' :
+            t1 = time.time()
+            dynamicList.append(['5 Internal',t1])
+            inputList.append('5 Internal')        
+        elif button == '6' :
+            t1 = time.time()
+            dynamicList.append(['6 Internal',t1])
+            inputList.append('6 Internal')      
+        elif button == '7' :
+            t1 = time.time()
+            dynamicList.append(['7 Internal',t1])    
+            inputList.append('7 Internal')        
+        elif button == '8' :
+            t1 = time.time()
+            dynamicList.append(['8 Internal',t1])
+            inputList.append('8 Internal')        
+        elif button == '9' :
+            t1 = time.time()
+            dynamicList.append(['9 Internal',t1])
+            inputList.append('9 Internal')       
+        elif button == '10' :
+            t1 = time.time()
+            dynamicList.append(['10 Internal',t1])
+            inputList.append('10 Internal')        
+        elif button == '11' :
+            t1 = time.time()
+            dynamicList.append(['11 Internal',t1])
+            inputList.append('11 Internal')        
+        elif button == '12' :
+            t1 = time.time()
+            dynamicList.append(['12 Internal',t1])
+            inputList.append('12 Internal')       
+        elif button == '13' :
+            t1 = time.time()
+            dynamicList.append(['13 Internal',t1])
+            inputList.append('13 Internal')  
+        elif button == '14' :
+            t1 = time.time()
+            dynamicList.append(['13 Internal',t1])
+            inputList.append('13 Internal')
+        elif button == '15' :
+            t1 = time.time()
+            dynamicList.append(['13 Internal',t1])
+            inputList.append('13 Internal')    
+        elif button == '1F':
+            t1 = time.time()
+            dynamicList.append(['1 External',t1])
+            inputList.append('1 Externa;')  
+        elif button == '2F':
+            t1 = time.time()
+            dynamicList.append(['2 External',t1])
+            inputList.append('2 External')  
+        elif button == '3F':
+            t1 = time.time()
+            dynamicList.append(['3 External',t1])
+            inputList.append('3 External')    
+        elif button == '4F':
+            t1 = time.time()
+            dynamicList.append(['4 External',t1])
+            inputList.append('4 External')  
+        elif button == '5F':
+            t1 = time.time()
+            dynamicList.append(['5 External',t1])
+            inputList.append('5 External')  
+        elif button == '6F':
+            t1 = time.time()
+            dynamicList.append(['6 External',t1])
+            inputList.append('6 External')  
+        elif button == '7F':
+            t1 = time.time()
+            dynamicList.append(['7 External',t1])
+            inputList.append('7 External')  
+        elif button == '8F':
+            t1 = time.time()
+            dynamicList.append(['8 External',t1])
+            inputList.append('8 External') 
+        elif button == '9F':
+            t1 = time.time()
+            dynamicList.append(['9 External',t1])
+            inputList.append('9 External') 
+        elif button == '10F' :
+            t1 = time.time()
+            dynamicList.append(['10 External',t1])
+            inputList.append('10 External') 
+        elif button == '11F' :
+            t1 = time.time()
+            dynamicList.append(['11 External',t1])
+            inputList.append('11 External') 
+        elif button == '12F' :
+            t1 = time.time()
+            dynamicList.append(['12 External',t1])
+            inputList.append('12 External') 
+        elif button == '13F' :
+            t1 = time.time()
+            dynamicList.append(['13 External',t1])
+            inputList.append('13 External') 
+        elif button == '14F' :
+            t1 = time.time()
+            dynamicList.append(['14 External',t1])
+            inputList.append('14 External') 
+        elif button == '15F' :
+            t1 = time.time()
+            dynamicList.append(['15 External',t1])
+            inputList.append('15 External') 
         
-        # if button == '1' :
-        #     t1 = time.time()
-        #     dynamicList.append(['1 Internal',t1])
-        # if button == '2' :
-        #     t1 = time.time()
-        #     dynamicList.append(['2 Internal',t1])
-        # if button == '3' :
-        #     t1 = time.time()
-        #     dynamicList.append(['3 Internal',t1])
-        # if button == '4' :
-        #     t1 = time.time()
-        #     dynamicList.append(['4 Internal',t1])
-        # if button == '5' :
-        #     t1 = time.time()
-        #     dynamicList.append(['5 Internal',t1])
-        # if button == '6' :
-        #     t1 = time.time()
-        #     dynamicList.append(['6 Internal',t1])
-        # if button == '7' :
-        #     t1 = time.time()
-        #     dynamicList.append(['7 Internal',t1])    
-        # if button == '8' :
-        #     t1 = time.time()
-        #     dynamicList.append(['8 Internal',t1])
-        # if button == '9' :
-        #     t1 = time.time()
-        #     dynamicList.append(['9 Internal',t1])
-        # if button == '10' :
-        #     t1 = time.time()
-        #     dynamicList.append(['10 Internal',t1])
-        # if button == '11' :
-        #     t1 = time.time()
-        #     dynamicList.append(['11 Internal',t1])
-        # if button == '12' :
-        #     t1 = time.time()
-        #     dynamicList.append(['12 Internal',t1])
-        # if button == '13' :
-        #     t1 = time.time()
-        #     dynamicList.append(['13 Internal',t1])
-            
-        if wait:
+        elif wait:
               time.sleep(5)
 
 
@@ -332,7 +312,7 @@ def dynamic(head):
 
     # global wait
     direction_up = True
-    time.sleep(1)
+    # time.sleep(1)
     if len(dynamicList) != 0:
         first_req = dynamicList[0]
         first_req = first_req.split()
@@ -353,7 +333,7 @@ def dynamic(head):
             print("floor is now :\n", head)
             dynamicList.pop(0)
             if i == sizeQ - 1:
-                priority.append('---')
+                priority.append('--Next Requests--')
         # dynamicList.clear()
         if q1.empty():
             wait = False
@@ -368,11 +348,11 @@ def update(dynamic, head, direction):
         sp = i[0].split()
         print("sp is :" , sp)
         # print("i is :\n", i )
-        difference = abs(int(head) - int(sp[0]))
-        diff = now - i[1]
-        d1 = difference / diff
+        differenceFloor = abs(int(head) - int(sp[0]))
+        differenceTime = now - i[1]
+        d1 = differenceFloor / differenceTime
         if (head - int(sp[0]) > 0 and direction) or (int(head) - int(sp[0]) < 0 and not direction):
-            d1 *= 0.7
+            d1 *= 0.65
         if sp[1] == 'Internal' :
             d1 *= (1/2)
         list1.append(d1)
