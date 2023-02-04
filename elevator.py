@@ -41,6 +41,7 @@ def staticProcess(arrayInput, head):
             up.sort()
             print("up :" , up)
             print("downL " , down)
+            
             if (k == 0 and len(up) >= len(down)) or (sub_array[0] > head) or (direction_up is True and sub_array[len(down) + len(up) - 1] > head):
                 for i in range(len(up)):
                     direction_up = True
@@ -67,11 +68,13 @@ def staticProcess(arrayInput, head):
 
                         head = newFloor
 
-            elif (sub_array[0] < head and direction_up is False) or (len(down) + len(up) < 4):
+            elif (sub_array[0] < head and direction_up is False) or (len(down) + len(up) <= 4):
+                if direction_up and head > down[len(down) - 1] and head > down[0] :
+                    down.reverse()
                 for i in range(0, len(down)):
                     direction_up = False
                     newFloor = down[i]
-                    
+                                        
                     seqArray.append(newFloor)
 
                     distance = abs(newFloor - head)
@@ -91,7 +94,11 @@ def staticProcess(arrayInput, head):
                     head = newFloor
 
             for i in range(0 , len(seqArray)):
-                print(seqArray[i])
+                if i > 0 and seqArray[i] != seqArray[i-1] :
+                    print(seqArray[i])
+                elif i == 0:
+                    print(seqArray[i])
+
             print('--------------')
 
             up.clear()
